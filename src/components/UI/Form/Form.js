@@ -48,8 +48,17 @@ class MyForm extends React.Component{
             payment : payment.target.id
         })
     }
-    handleCities = (city) =>{
-        const list = city.target.che;
+    handleCities = (e) => {        
+        const item = e.target.id;
+        const isChecked = e.target.checked;
+        const list = this.state.cities;
+        if (isChecked) {
+            list.push(item);           
+        }
+        else{
+        const index = list.indexOf(item)
+        list.splice(index, 1);
+        }
         this.setState({
             cities : list
         })
@@ -65,7 +74,8 @@ class MyForm extends React.Component{
         const qty = this.state.quantity;
         const payment = this.state.payment;
         const image = this.state.URL;
-        axios.post('products.json',{name,type,price,qty,payment,image})
+        const cityList = this.state.cities;
+        axios.post('products.json',{name,type,price,qty,payment,image, cityList})
         .then(response => {
             console.log(response);
             document.getElementById("myForm").reset();
@@ -79,7 +89,7 @@ class MyForm extends React.Component{
             <div className = "col-6 mb-2">
             <Form id = "myForm">
                 <InputText id = "textName" place = "Enter you name" type = "text" label = "Name :" onchange = {this.handleName}/>
-                <ComboBox label = "Select Product Type" name = "productType" id = "productType" option1 = "Clothes" option2 = "Toys" option3 = "Appliances" option3 = "Electronics" option3 = "Footwear" option3 = "Watches" option3 = "Mobiles" option3 = "Laptops" onchange = {this.handleProduct}/>
+                <ComboBox label = "Select Product Type" name = "productType" id = "productType" option1 = "Clothes" option2 = "Toys" option3 = "Appliances" option4 = "Electronics" option5 = "Footwear" option6 = "Watches" option7 = "Mobiles" option8 = "Laptops" onchange = {this.handleProduct}/>
                 <InputText id = "imgURL" place = "Enter Image URL" type = "text" label = "Image URL :" onchange = {this.handleURL}/>
                 <InputText id = "textPrice" place = "Enter Price" type = "number" label = "Price :" onchange = {this.handlePrice}/>
                 <InputText id = "textQuantity" place = "Enter Quantity" type = "number" label = "Quantity :" onchange = {this.handleQuantity}/>
