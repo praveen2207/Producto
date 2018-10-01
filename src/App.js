@@ -8,10 +8,12 @@ import axios from './axios';
 import Footer from './components/UI/Footer/Footer';
 import SortCombo from './components/UI/ComboboxSort/ComboboxSort'
 import FilterCombo from './components/UI/ComboboxFilter/ComboboxFilter'
+import CityCombo from './components/UI/ComboboxCity/ComboboxCity'
+import PaymentCombo from './components/UI/PaymentCombo/PaymentCombo'
 
 class App extends Component {
   state = {
-    data: []
+    data : []
   }
   componentDidMount() {
     axios.get('/products.json')
@@ -94,22 +96,63 @@ class App extends Component {
       data : result
     })
   }
+  filterByCity = (e) => {
+    const listByCity = this.state.data;
+    const filter = e.target.value;
+    let result = [];
+    if(filter === "Bangalore")
+      result = listByCity.filter((a) => {return a.cities.includes("Bangalore")})
+    else if(filter === "Delhi")
+      result = listByCity.filter((a) => {return a.cities.includes("Delhi")})
+    else if(filter === "Mumbai")
+      result = listByCity.filter((a) => {return a.cities.includes("Mumbai")})
+    else
+      this.componentDidMount();
+    this.setState({
+      data : result
+    })
+  }
+  filterByPayment = (e) => {
+    const listByPayment = this.state.data;
+    const filter = e.target.value;
+    let result = [];
+    if(filter === "Card")
+      result = listByPayment.filter((a) => {return a.payment === "Card"})
+    else if(filter === "COD")
+      result = listByPayment.filter((a) => {return a.payment === "COD"})
+    else if(filter === "Both")
+      result = listByPayment.filter((a) => {return a.payment === "Both"})
+    else
+      this.componentDidMount();
+    this.setState({
+      data : result
+    })
+  }
+  deleter = (e) => {
+    const id = e.target.id;
+    axios.delete("./products/"+id+".json")
+     .then(response => {console.log(response)})
+     .catch(error => {console.log(error)})
+    window.location.reload()
+  }
   render() {
     return (
-      <div className="App container-fluid">
+      <div className="App container-fluid">   
         <MyNavbar />
         <div className="row ml-1 mb-5">
-          <div className="card mt-2 float-left" style={{ width: "40%", borderWidth: "2px", borderColor: "#343a40" }}>
-            <h1 className="ml-2" style={{ color: "#17a2b8" }}>Input Product Details</h1>
+          <div className="card mt-2 float-left" style={{ width: "30%", borderWidth: "2px", borderColor: "#343a40" }}>
+            <h2 className="ml-2" style={{ color: "#17a2b8" }}>Input Product Details</h2 >
             <MyForm />
           </div>
-          <div className="card mt-2 float-left" style={{ width: "60%", height: "800px", borderWidth: "2px", borderColor: "#343a40", overflowY: "auto", overflowX: "hidden" }}>
+          <div className="card mt-2 float-left" style={{ width: "70%", height: "800px", borderWidth: "2px", borderColor: "#343a40", overflowY: "auto", overflowX: "hidden" }}>
             <span><h1 style={{ color: "#17a2b8" }} className = "ml-2">Product List</h1></span>
             <div className="row mb-2">
               <span className = "ml-4"><SortCombo onchange = {this.sortBy}/></span>
-              <span className = "ml-5"><FilterCombo onchange = {this.filterBy}/></span>
+              <span className = "ml-3"><FilterCombo onchange = {this.filterBy}/></span>
+              <span className = "ml-3"><CityCombo onchange = {this.filterByCity}/></span>
+              <span className = "ml-3"><PaymentCombo onchange = {this.filterByPayment}/></span>
             </div>
-            <ResultsList products={this.state.data} />
+            <ResultsList products={this.state.data} onclick = {this.deleter}/>
           </div>
         </div>
         <Footer />

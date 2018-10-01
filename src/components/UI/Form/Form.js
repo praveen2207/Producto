@@ -79,6 +79,7 @@ class MyForm extends React.Component{
         .then(response => {
             console.log(response);
             document.getElementById("myForm").reset();
+            window.location.reload()
         })
         .catch(error => {
             console.log(error);
