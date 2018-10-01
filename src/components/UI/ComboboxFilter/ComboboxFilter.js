@@ -6,9 +6,10 @@ class ComboBox extends React.Component {
             <FormGroup>
                 <Input type="select" name="filterCombo" id="filterCombo" onChange = {this.props.onchange}>
                     <option>---Filter By---</option>
-                    <option>ProductType : Clothes</option>
-                    <option>ProductType : Watches</option>
-                    <option>ProductType : Appliances</option>
+                    <option id = "Clothes">ProductType : Clothes</option>
+                    <option id = "Watches">ProductType : Watches</option>
+                    <option id = "Toys">ProductType : Toys</option>
+                    <option id = "Electronics">ProductType : Electronics</option>
                 </Input>
             </FormGroup>
         )

@@ -6,10 +6,10 @@ class ComboBox extends React.Component {
             <FormGroup>
                 <Input type="select" name="sortCombo" id="sortCombo" onChange = {this.props.onchange}>
                     <option>---Sort By---</option>
-                    <option>Price : Low to High</option>
-                    <option>Price : High to Low</option>
-                    <option>Quantity : Low to High</option>
-                    <option>Quantity : High to Low</option>
+                    <option id = "PLH">Price : Low to High</option>
+                    <option id = "PHL">Price : High to Low</option>
+                    <option id = "QLH">Quantity : Low to High</option>
+                    <option id = "OHL">Quantity : High to Low</option>
                 </Input>
             </FormGroup>
         )

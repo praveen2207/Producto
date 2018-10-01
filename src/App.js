@@ -51,9 +51,45 @@ class App extends Component {
       data : listByPrice
     })
   }
-  filterByProduct = () => {
-    const listByProduct = this.state.data;
-    const result = listByProduct.filter((a) => {return a.type === "Clothes"})
+  sortByQuantityLH = () => {
+    const listByPrice = this.state.data;
+    listByPrice.sort((a,b) => {return a.quantity - b.quantity})
+    this.setState({
+      data : listByPrice
+    })
+  }
+  sortByQuantityHL = () => {
+    const listByPrice = this.state.data;
+    listByPrice.sort((a,b) => {return b.quantity - a.quantity})
+    this.setState({
+      data : listByPrice
+    })
+  }
+  sortBy = (e) => {
+    const sorter = e.target.value;
+    if(sorter === "Price : High to Low")
+      this.sortByPriceHL();
+    else if(sorter === "Price : Low to High")
+      this.sortByPriceLH();
+    else if(sorter === "Quantity : High to Low")
+      this.sortByQuantityHL();
+    else
+      this.sortByQuantityLH();
+  }
+  filterBy = (e) => {
+    const listBy = this.state.data;
+    const filter = e.target.value;
+    let result = [];
+    if(filter === "ProductType : Clothes")
+      result = listBy.filter((a) => {return a.type === "Clothes"})
+    else if(filter === "ProductType : Watches")
+      result = listBy.filter((a) => {return a.type === "Watches"})
+    else if(filter === "ProductType : Toys")
+      result = listBy.filter((a) => {return a.type === "Toys"})
+    else if(filter === "ProductType : Electronics")
+      result = listBy.filter((a) => {return a.type === "Electronics"})
+    else
+      this.componentDidMount()
     this.setState({
       data : result
     })
@@ -70,8 +106,8 @@ class App extends Component {
           <div className="card mt-2 float-left" style={{ width: "60%", height: "800px", borderWidth: "2px", borderColor: "#343a40", overflowY: "auto", overflowX: "hidden" }}>
             <span><h1 style={{ color: "#17a2b8" }} className = "ml-2">Product List</h1></span>
             <div className="row mb-2">
-              <span className = "ml-4"><SortCombo/></span>
-              <span className = "ml-5"><FilterCombo/></span>
+              <span className = "ml-4"><SortCombo onchange = {this.sortBy}/></span>
+              <span className = "ml-5"><FilterCombo onchange = {this.filterBy}/></span>
             </div>
             <ResultsList products={this.state.data} />
           </div>
